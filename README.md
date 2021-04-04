@@ -1,9 +1,9 @@
 # ContactsApp
-A full-stack contact manager app using MERN stack.
+A full-stack CRUD contact manager app.
 
 ## Uses : 
-MERN stack
-bcryptjs
-jsonwebtokens
-config
+MERN stack,
+bcryptjs,
+jwt authentication,
+config,
 express-validator
