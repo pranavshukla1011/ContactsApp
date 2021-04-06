@@ -13,9 +13,12 @@ app.get('/', (req, res) =>
   })
 );
 
+//user req body in routes
+app.use(express.json({ extended: false }));
+
 //Defining routes
 
-app.use('/api/user', require('./routes/users'));
+app.use('/api/users', require('./routes/users'));
 app.use('/api/contact', require('./routes/contacts'));
 app.use('/api/auth', require('./routes/auth'));
 
