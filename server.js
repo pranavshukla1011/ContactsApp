@@ -29,14 +29,13 @@ app.listen(PORT, () => {
 });
 
 /*
-test users:
+test user
 
 {
     "name" : "User 2",
     "email" : "dragoneel1012@gmail.com",
     "password": "password1012"
 }
-
 {
     "email" : "iamPranavShukla@gmail.com",
     "password": "password1011"
