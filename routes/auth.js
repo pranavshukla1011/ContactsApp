@@ -49,7 +49,7 @@ router.post(
         return res.status(400).json({ msg: 'User Not Found' });
       }
 
-      const isMatch = bycrypt.compare(password, user.password);
+      const isMatch = await bycrypt.compare(password, user.password);
       if (!isMatch) {
         return res.status(400).json({ msg: 'Invalid Credentials' });
       }

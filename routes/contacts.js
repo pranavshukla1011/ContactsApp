@@ -52,7 +52,12 @@ router.post(
         msg: 'Request Successfully Processed',
       });
       console.log('New Contact Added');
-    } catch (error) {}
+    } catch (error) {
+      console.log(error.message);
+      res.status(500).json({
+        msg: 'Server Error',
+      });
+    }
 
     // res.send('Post new user contact');
   }
@@ -61,15 +66,78 @@ router.post(
 //@route    PUT api/contact/:id
 //@desc     Update an existing user contact info
 //@access   Private
-router.put('/:id', (req, res) => {
-  res.send('Update existing user contact');
+router.put('/:id', auth, async (req, res) => {
+  const { name, email, phone, type } = req.body;
+
+  //build contact object
+  const contactFields = {};
+
+  if (name) contactFields.name = name;
+  if (email) contactFields.email = email;
+  if (phone) contactFields.phone = phone;
+  if (type) contactFields.type = type;
+  try {
+    let contact = await Contact.findById(req.params.id);
+    if (!contact) {
+      return res.status(404).json({
+        msg: 'Contact not found',
+      });
+    }
+    console.log('Contact Found');
+    //Ensuring own contact edit
+    if (contact.user.toString() !== req.user.id)
+      return res.status(401).json({
+        msg: 'Not Authorized',
+      });
+    console.log('Updating Same Contact');
+    //Updating
+    contact = await Contact.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: contactFields,
+      },
+      { new: true }
+    );
+    res.json(contact);
+    console.log('Existing Contact Updated for logged in User');
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({
+      msg: 'Server Error',
+    });
+  }
 });
 
 //@route    DELETE api/contact/:id
 //@desc     Delete a new contact in a particular user contact info
 //@access   Private
-router.delete('/:id', (req, res) => {
-  res.send('Delete user contact');
+router.delete('/:id', auth, async (req, res) => {
+  try {
+    let contact = await Contact.findById(req.params.id);
+    if (!contact) {
+      return res.status(404).json({
+        msg: 'Contact not found',
+      });
+    }
+    console.log('Contact Found');
+    //Ensuring own contact edit
+    if (contact.user.toString() !== req.user.id)
+      return res.status(401).json({
+        msg: 'Not Authorized',
+      });
+    console.log('Updating Same Contact');
+    //deleting
+    await Contact.findByIdAndRemove(req.params.id);
+    res.json({
+      msg: 'Contact Removed',
+    });
+    console.log('Existing Contact Updated for logged in User');
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({
+      msg: 'Server Error',
+    });
+  }
 });
 
 module.exports = router;

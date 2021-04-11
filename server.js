@@ -27,3 +27,18 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server started at ${PORT}`);
 });
+
+/*
+test users:
+
+{
+    "name" : "User 2",
+    "email" : "dragoneel1012@gmail.com",
+    "password": "password1012"
+}
+
+{
+    "email" : "iamPranavShukla@gmail.com",
+    "password": "password1011"
+}
+ */
