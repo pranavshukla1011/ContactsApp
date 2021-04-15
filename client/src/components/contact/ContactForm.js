@@ -26,7 +26,7 @@ export const ContactForm = () => {
     }
   }, [contactContext, current]);
 
-  const { name, email, phone, type } = contact;
+  const { id, name, email, phone, type } = contact;
 
   const onChange = (e) =>
     setContact({
@@ -46,6 +46,7 @@ export const ContactForm = () => {
       });
     } else {
       updateContact(contact);
+      functionToClearCurrent();
       setContact({
         name: '',
         email: '',
