@@ -9,6 +9,7 @@ import {
   ADD_CONTACT,
   DELETE_CONTACT,
   UPDATE_CONTACT,
+  SET_CURRENT,
   CLEAR_CURRENT,
   FILTER_CONTACT,
   CLEAR_FILTER,
@@ -39,6 +40,7 @@ const ContactState = (props) => {
         type: 'professional',
       },
     ],
+    current: null, //to store contact to be edited
   };
 
   //reducer
@@ -59,9 +61,19 @@ const ContactState = (props) => {
   };
   //set current contact
 
+  const setCurrent = (contact) => {
+    dispatch({ type: SET_CURRENT, payload: contact });
+  };
   //clear current contact
 
+  const clearCurrent = () => {
+    dispatch({ type: CLEAR_CURRENT });
+  };
+
   //update contact
+  const updateContact = (contact) => {
+    dispatch({ type: UPDATE_CONTACT, payload: contact });
+  };
 
   //filter contacts
 
@@ -71,8 +83,12 @@ const ContactState = (props) => {
     <ContactContext.Provider
       value={{
         contacts: state.contacts,
+        current: state.current,
         addContact,
         deleteContact,
+        setCurrent,
+        clearCurrent,
+        updateContact,
       }}
     >
       {props.children}
