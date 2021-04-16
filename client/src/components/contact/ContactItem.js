@@ -6,18 +6,31 @@ import ContactContext from '../../context/Contact/ContactContext';
 const ContactItem = ({ contact }) => {
   const contactContext = useContext(ContactContext);
 
-  const { setCurrent, clearCurrent } = contactContext;
+  const {
+    filtered,
+    setCurrent,
+    clearCurrent,
+    deleteContactInFilterState,
+  } = contactContext;
 
   const { id, name, email, phone, type } = contact;
 
   let floatStyle = { float: 'right' };
 
   const functionToSetCurrent = () => {
+    //set contact in contacts state
     setCurrent(contact);
   };
 
   const functionToDeleteContact = () => {
+    //clear current in contacts state
     contactContext.deleteContact(id);
+
+    //clear current in filtered state
+    if (filtered !== null) {
+      deleteContactInFilterState(id);
+    }
+
     clearCurrent();
   };
 

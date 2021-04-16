@@ -12,6 +12,9 @@ import {
   SET_CURRENT,
   CLEAR_CURRENT,
   FILTER_CONTACT,
+  SET_FILTER_TEXT,
+  UPDATE_CONTACT_IN_FILTER,
+  DELETE_CONTACT_IN_FILTER,
   CLEAR_FILTER,
 } from '../types';
 
@@ -41,6 +44,7 @@ const ContactState = (props) => {
       },
     ],
     current: null, //to store contact to be edited
+    filtered: null,
   };
 
   //reducer
@@ -76,19 +80,46 @@ const ContactState = (props) => {
   };
 
   //filter contacts
+  const filterContact = (text) => {
+    dispatch({ type: FILTER_CONTACT, payload: text });
+  };
+
+  const setFilterText = (text) => {
+    dispatch({ type: SET_FILTER_TEXT, payload: text });
+  };
+
+  //update current contact in filter
+  const updateContactInFilterState = (contact) => {
+    dispatch({ type: UPDATE_CONTACT_IN_FILTER, payload: contact });
+  };
+
+  //clear current contact in filter
+  const deleteContactInFilterState = (id) => {
+    dispatch({ type: DELETE_CONTACT_IN_FILTER, payload: id });
+  };
 
   //clear filter
+  const clearFilter = () => {
+    dispatch({ type: CLEAR_FILTER });
+  };
 
   return (
     <ContactContext.Provider
       value={{
         contacts: state.contacts,
         current: state.current,
+        filterText: state.filterText,
+        filtered: state.filtered,
         addContact,
         deleteContact,
         setCurrent,
         clearCurrent,
         updateContact,
+        filterContact,
+        setFilterText,
+        updateContactInFilterState,
+        deleteContactInFilterState,
+        clearFilter,
       }}
     >
       {props.children}

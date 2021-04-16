@@ -1,10 +1,16 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { Fragment, useState, useContext, useEffect } from 'react';
 import ContactContext from '../../context/Contact/ContactContext';
-
 export const ContactForm = () => {
   const contactContext = useContext(ContactContext);
 
-  const { addContact, current, clearCurrent, updateContact } = contactContext;
+  const {
+    addContact,
+    current,
+    clearCurrent,
+    updateContact,
+    updateContactInFilterState,
+    filtered,
+  } = contactContext;
 
   const [contact, setContact] = useState({
     name: '',
@@ -38,6 +44,7 @@ export const ContactForm = () => {
     e.preventDefault();
     if (current == null) {
       addContact(contact);
+
       setContact({
         name: '',
         email: '',
@@ -45,8 +52,11 @@ export const ContactForm = () => {
         type: 'personal',
       });
     } else {
-      updateContact(contact);
       functionToClearCurrent();
+      updateContact(contact);
+      if (filtered !== null) {
+        updateContactInFilterState(contact);
+      }
       setContact({
         name: '',
         email: '',
@@ -61,67 +71,69 @@ export const ContactForm = () => {
   };
 
   return (
-    <form action='' onSubmit={onSubmit}>
-      <h2 className='text-primary'>
-        {' '}
-        {current ? 'Edit Contact' : 'Add Contact'}
-      </h2>
-      <input
-        type='text'
-        placeholder='Enter Name'
-        name='name'
-        value={name}
-        onChange={onChange}
-      />
-      <input
-        type='email'
-        placeholder='Enter Email'
-        name='email'
-        value={email}
-        onChange={onChange}
-      />
-      <input
-        type='text'
-        placeholder='Enter Phone'
-        name='phone'
-        value={phone}
-        onChange={onChange}
-      />
-      <h5>Contact Type</h5>
-      <input
-        type='radio'
-        name='type'
-        value='personal'
-        checked={type === 'personal'}
-        onChange={onChange}
-      />{' '}
-      Personal{' '}
-      <input
-        type='radio'
-        name='type'
-        value='professional'
-        checked={type === 'professional'}
-        onChange={onChange}
-      />{' '}
-      Professional{' '}
-      <div>
+    <Fragment>
+      <form action='' onSubmit={onSubmit}>
+        <h2 className='text-primary'>
+          {' '}
+          {current ? 'Edit Contact' : 'Add Contact'}
+        </h2>
         <input
-          type='submit'
-          value={current ? 'Update Contact' : 'Add new Contact'}
-          className='btn btn-primary btn-block'
+          type='text'
+          placeholder='Enter Name'
+          name='name'
+          value={name}
+          onChange={onChange}
         />
-      </div>
-      {current && (
+        <input
+          type='email'
+          placeholder='Enter Email'
+          name='email'
+          value={email}
+          onChange={onChange}
+        />
+        <input
+          type='text'
+          placeholder='Enter Phone'
+          name='phone'
+          value={phone}
+          onChange={onChange}
+        />
+        <h5>Contact Type</h5>
+        <input
+          type='radio'
+          name='type'
+          value='personal'
+          checked={type === 'personal'}
+          onChange={onChange}
+        />{' '}
+        Personal{' '}
+        <input
+          type='radio'
+          name='type'
+          value='professional'
+          checked={type === 'professional'}
+          onChange={onChange}
+        />{' '}
+        Professional{' '}
         <div>
-          <button
-            className='btn btn-light btn-block'
-            onClick={functionToClearCurrent}
-          >
-            Clear
-          </button>
+          <input
+            type='submit'
+            value={current ? 'Update Contact' : 'Add new Contact'}
+            className='btn btn-primary btn-block'
+          />
         </div>
-      )}
-    </form>
+        {current && (
+          <div>
+            <button
+              className='btn btn-light btn-block'
+              onClick={functionToClearCurrent}
+            >
+              Clear
+            </button>
+          </div>
+        )}
+      </form>
+    </Fragment>
   );
 };
 
