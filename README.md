@@ -1,7 +1,9 @@
 # ContactsApp
 A full-stack CRUD contact manager app.
 
-## Uses : 
+**Visit :** https://pranav-shukla.netlify.app/  to see all my projects.
+
+## Used : 
 MERN stack,
 bcryptjs,
 jwt authentication,
